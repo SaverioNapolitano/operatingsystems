@@ -25,15 +25,10 @@ int main(int argc, char** argv) {
         }
     }
     long int count;
-    int *pid = malloc(N*sizeof(int));
     struct occorrenzeCarattere *conta = malloc(N*sizeof(struct occorrenzeCarattere));
     if(conta==NULL){
         printf("Errore in malloc\n");
         exit(8);
-    }
-    if(pid == NULL){
-        printf("Errore in malloc\n");
-        exit(4);
     }
     int piped[2]; /* array dinamico di pipe descriptors per comunicazioni figli-padre */
     if(pipe(piped) < 0){
@@ -70,12 +65,10 @@ int main(int argc, char** argv) {
             }
             conta[i].occorrenze = count;
             conta[i].carattere = argv[i+2][0];
-            printf("count %ld carattere %c\n", count, argv[i+2][0]);
             write(piped[1], &conta[i], sizeof(struct occorrenzeCarattere));
             exit(conta[i].carattere);
         }
         /* processo padre */
-        pid[i] = pidFiglio;
     }
     close(piped[1]);
     for(int i = 0; i < N; i++){
@@ -96,7 +89,7 @@ int main(int argc, char** argv) {
             printf("Il processo figlio è stato terminato in modo anomalo\n");
         } else {
             ritorno = (status >> 8) & 0xFF;
-            printf("Il figlio con pid %d ha ritornato %c\n", pid[i], (char)ritorno);
+            printf("Il figlio con pid %d ha ritornato %c\n", pidFiglio, (char)ritorno);
         }
         
     }
