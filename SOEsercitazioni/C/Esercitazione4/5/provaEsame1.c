@@ -16,11 +16,6 @@ int main(int argc, char** argv) {
     int tot = 0;
     int oldtot = -1;
     int N = argc - 1;
-    int *pid = malloc(N*sizeof(int));
-    if(pid == NULL){
-        printf("Errore in malloc\n");
-        exit(3);
-    }
     int p[2][2];
     if(pipe(p[0])<0){
         printf("Errore in pipe\n");
@@ -72,7 +67,6 @@ int main(int argc, char** argv) {
             exit(c);
         }
         /* processo padre */
-        pid[i] = pidFiglio;
     }
     close(p[0][1]);
     close(p[1][1]);
@@ -103,7 +97,7 @@ int main(int argc, char** argv) {
             printf("Il processo figlio è stato terminato in modo anomalo\n");
         } else {
             ritorno = (status >> 8) & 0xFF;
-            printf("Il figlio con pid %d ha ritornato %d che corrisponde al carattere %c\n", pid[i], ritorno, (char)ritorno);
+            printf("Il figlio con pid %d ha ritornato %d che corrisponde al carattere %c\n", pidFiglio, ritorno, (char)ritorno);
         }
         
     }
