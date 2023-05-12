@@ -21,11 +21,6 @@ int main(int argc, char** argv) {
         }
     }
     long int count;
-    int *pid = malloc(N*sizeof(int));
-    if(pid == NULL){
-        printf("Errore in malloc\n");
-        exit(4);
-    }
     pipe_t *piped; /* array dinamico di pipe descriptors per comunicazioni figli-padre */
     piped = (pipe_t *) malloc (N*sizeof(pipe_t));
     if (piped == NULL){
@@ -73,7 +68,6 @@ int main(int argc, char** argv) {
         }
         /* processo padre */
         close(piped[i][1]);
-        pid[i] = pidFiglio;
     }
     for(int i = 0; i < N; i++){
         read(piped[i][0], &count, sizeof(count));
@@ -93,7 +87,7 @@ int main(int argc, char** argv) {
             printf("Il processo figlio è stato terminato in modo anomalo\n");
         } else {
             ritorno = (status >> 8) & 0xFF;
-            printf("Il figlio con pid %d ha ritornato %c\n", pid[i], (char)ritorno);
+            printf("Il figlio con pid %d ha ritornato %c\n", pidFiglio, (char)ritorno);
         }
         
     }
