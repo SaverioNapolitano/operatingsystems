@@ -6,7 +6,7 @@
 #include <string.h>
 #include <errno.h>
 #define PERM 0640
-int main(int argc, char** argv) {
+int main(int argc, char** argv) { 
     int i;
     int pidFiglio, pidNipote;	// memorizzo il valore di ritorno della funzione fork
     int status;	// La variabile usata per memorizzare quanto ritornato dalla primitiva wait
